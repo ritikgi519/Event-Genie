@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Polyfill/enable writable setter on window.fetch for browser extensions and test interceptors
+      (function() {
+        try {
+          var _origFetch = window.fetch;
+          var _currentFetch = function() {
+            return _origFetch.apply(window, arguments);
+          };
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return _currentFetch;
+            },
+            set: function(newFetch) {
+              _currentFetch = newFetch;
+            }
+          });
+        } catch (e) {
+          // If defineProperty is restricted, safely ignore
+        }
+
+        // Suppress uncaught errors leaking from chrome-extension scripts
+        window.addEventListener('error', function(event) {
+          if (event && (
+            (event.filename && event.filename.indexOf('chrome-extension:') !== -1) ||
+            (event.message && event.message.indexOf('chrome-extension') !== -1) ||
+            (event.message && event.message.indexOf('which has only a getter') !== -1)
+          )) {
+            if (typeof event.preventDefault === 'function') event.preventDefault();
+            if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+    <title>EventGenie - AI Master Event Planner</title>
+    <meta name="description" content="Elite multi-disciplinary AI Event Planning Assistant specializing in weddings, milestone birthdays, and community events with budget matrices, reverse timelines, vendor checklists, and creative concepts." />
+    <meta property="og:title" content="EventGenie - AI Master Event Planner" />
+    <meta property="og:description" content="Elite multi-disciplinary AI Event Planning Assistant specializing in weddings, milestone birthdays, and community events with budget matrices, reverse timelines, vendor checklists, and creative concepts." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

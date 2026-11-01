@@ -1,0 +1,6 @@
+{
+  "name": "EventGenie - AI Master Event Planner",
+  "description": "Elite multi-disciplinary AI Event Planning Assistant specializing in weddings, milestone birthdays, and community events with budget matrices, reverse timelines, vendor checklists, and creative concepts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
